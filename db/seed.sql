@@ -20,12 +20,11 @@ VALUES ("SOFTWARE ENGINEER", 65000, 1),
 
 
 INSERT INTO employees (first_name, last_name, roles_id, managers_id)
-VALUES ("Bobby", "Cox", 6, NULL);
+VALUES ("Bobby", "Cox", 6, NULL),
 ("Sparky", "Anderson", 4, 1),
 ("Billy", "Martin", 4, 1), 
 ("Tommy", "Lasorda", 4, 1),
 ("Whitey", "Herzog", 4, 1),
-
 ("Nolan", "Ryan", 1, 5),
 ("Bart", "Starr", 1, 5),
 ("George", "Brett", 8, 4),
@@ -35,4 +34,4 @@ VALUES ("Bobby", "Cox", 6, NULL);
 ("Kim", "Basinger", 3, 3),
 ("Dona", "Speir", 9, 4),
 ("Kelly", "Lebrock", 7, 5),
-("Whitney", "Houston", 3, 3),
+("Whitney", "Houston", 3, 3);
