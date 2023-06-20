@@ -70,30 +70,92 @@ async function main() {
             //THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
         }
 
-
         if (answers.action === "Add a Department") {
-            const [departments] = await connection.execute('INSERT INTO departments (dept_name) VALUES ("KITCHEN");', []);
-            console.log("Showing all Departments");
-            console.table(departments);
+
+            const answersDept = await prompt([
+                {
+                    type: 'input',
+                    message: "Enter new department name",
+                    name: "deptName",
+                },
+            ])
+
+            let newDept = [answersDept];
+            console.log(newDept);
+
+            connection.query('INSERT INTO departments VALUES (id, dept_name)', newDept, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+
+                console.table(departments);
+            });
+
+            //const [departments] = await connection.execute('INSERT INTO departments (dept_name) VALUES ("KITCHEN");', []);
+            // console.log("Showing all Departments");
+            // console.table(departments);   
         }
 
         if (answers.action === "Add a Role") {
-            const [roles] = await connection.execute('INSERT INTO roles (title, salary, dept_id) VALUES ("CHEF", 50000, 1);', []);
-            console.log("Showing all Roles");
-            console.table(roles);
+
+            const answersRole = await prompt([
+                {
+                    type: 'input',
+                    message: 'What is title of the new role?',
+                    name: 'roleTitle',
+                },
+                {
+                    type: 'input',
+                    message: 'What is salary for this role?',
+                    name: 'roleSalary',
+                },
+                {
+                    type: 'input',
+                    message: 'What is the department ID?',
+                    name: 'roleDept',
+                }
+            ])
+            let newRole = [answersRole];
+            console.log(newRole);
+
+            connection.query('INSERT INTO roles (title, salary, dept_id) VALUES (?)', newRole, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(result);
+                console.table(roles);
+            });
+
         }
 
-        if (answers.action === "Exit Program") {
-            connection.end();
+        //const [roles] = await connection.execute('INSERT INTO roles (title, salary, dept_id) VALUES ("CHEF", 50000, 1);', []);
+        //console.log("Showing all Roles");
+        //console.table(roles);
+    }
 
-        }
+    if (answers.action === "Exit Program") {
+        connection.end();
     }
 }
 
-
-
-
 main();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -184,8 +246,7 @@ main();
                 //THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
             }
 
-            if (answers.action === "Exit Program") {
-                connection.end();
+           
 
             }
             
