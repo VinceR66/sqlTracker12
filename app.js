@@ -76,24 +76,20 @@ async function main() {
                 {
                     type: 'input',
                     message: "Enter new department name",
-                    name: "deptName",
+                    name: "dept_name",
                 },
             ])
 
-            let newDept = [answersDept];
+            let newDept = answersDept.dept_name;
             console.log(newDept);
 
-            connection.query('INSERT INTO departments VALUES (id, dept_name)', newDept, (err, result) => {
+            connection.query('INSERT INTO departments (dept_name) VALUES (?);', newDept, (err, result) => {
                 if (err) {
+                    console.log('hello');
                     console.log(err);
                 }
-
-                console.table(departments);
+                console.log("Success - Department added to database!");
             });
-
-            //const [departments] = await connection.execute('INSERT INTO departments (dept_name) VALUES ("KITCHEN");', []);
-            // console.log("Showing all Departments");
-            // console.table(departments);   
         }
 
         if (answers.action === "Add a Role") {
@@ -101,12 +97,12 @@ async function main() {
             const answersRole = await prompt([
                 {
                     type: 'input',
-                    message: 'What is title of the new role?',
+                    message: 'What is the title of the new role?',
                     name: 'roleTitle',
                 },
                 {
                     type: 'input',
-                    message: 'What is salary for this role?',
+                    message: 'What is the salary for this role?',
                     name: 'roleSalary',
                 },
                 {
@@ -115,22 +111,54 @@ async function main() {
                     name: 'roleDept',
                 }
             ])
-            let newRole = [answersRole];
+            let newRole = [answersRole.roleTitle, answersRole.roleSalary, answersRole.roleDept];
             console.log(newRole);
 
-            connection.query('INSERT INTO roles (title, salary, dept_id) VALUES (?)', newRole, (err, result) => {
+            connection.query('INSERT INTO roles (title, salary, dept_id) VALUES (?, ?, ?);', newRole, (err, result) => {
                 if (err) {
                     console.log(err);
                 }
-                console.log(result);
-                console.table(roles);
+                console.log("Success - Role added to database!");
             });
 
         }
 
-        //const [roles] = await connection.execute('INSERT INTO roles (title, salary, dept_id) VALUES ("CHEF", 50000, 1);', []);
-        //console.log("Showing all Roles");
-        //console.table(roles);
+        if (answers.action === "Add an Employee") {
+
+            const answersEmp = await prompt([
+                {
+                    type: 'input',
+                    message: 'What is the first name of the new employee?',
+                    name: 'empFirstName',
+                },
+                {
+                    type: 'input',
+                    message: 'What is the last name of the new employee?',
+                    name: 'empLastName',
+                },
+                {
+                    type: 'input',
+                    message: 'What is the employee role?',
+                    name: 'empRole',
+                },
+                {
+                    type: 'input',
+                    message: 'What is the manager id for new employee?',
+                    name: 'empMgr',
+                }
+            ])
+            let newEmp = [answersEmp.empFirstName, answersEmp.empLastName, answersEmp.empRole, answersEmp.empMgr];
+            console.log(newEmp);
+
+            connection.query('INSERT INTO employees (first_name, last_name, roles_id, managers_id) VALUES (?, ?, ?, ?);', newEmp, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(result);
+                console.log("Success - Employee has been added to database!");
+            });
+        }
+
     }
 
     if (answers.action === "Exit Program") {
@@ -144,101 +172,7 @@ main();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
-
-        if (answers.action === "Add a Department") {
-            function addDept() {
-                inquirer.prompt([
-                    {
-                        type: 'input',
-                        message: 'What is the name of the new department?',
-                        name: 'deptName',
-                    }
-                ]).then((res) => {
-                    db.query(
-                        'INSERT INTO departments (dept_name) VALUES (?)',
-                        [res.deptName],
-                        (err, res) => {
-                            console.log('Approved! Added the department to the database.')
-                        })
-                }
-            }
-
-                  /*          const [] = await prompt([
-                    {
-                        type: 'input',
-                        message: 'What is the title of the new Department?',
-                        name: 'deptTitle',
-                    },
-                ])
-                
-                // const [departments] = await connection.execute('INSERT INTO departments (dept_name) VALUES (kitchen));'
-
-                console.table(departments);
-
-                //THEN I am prompted to enter the name of the department and that department is added to the database
-            }
-
-
-            //THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
-            if (answers.action === "Add a Role") {
-                const roleInput = await prompt([
-                    {
-                        type: 'input',
-                        message: 'What is title of the new role?',
-                        name: 'roleTitle',
-                    },
-                    {
-                        type: 'input',
-                        message: 'What is salary for this role?',
-                        name: 'roleSalary',
-                    },
-                    {
-                        type: 'list',
-                        message: 'The role will be part of which department?',
-                        name: 'roleDept',
-                        choices: [
-                            "IT",
-                            "Sales",
-                            "Accounting",
-                            "Management",
-                            "HR"
-                        ]
-                    }
-                ])
-
-                const { roleTitle, roleSalary, roleDept } = await connection.execute('INSERT INTO roles ("title", "salary", "department");', []);
-                console.log("The role has been added to database");
-                console.table(roles);
-            }
-
-            if (answers.action === "Add an Employee") {
-                const [employees] = await connection.execute('SELECT * FROM employees;', []);
-                console.table(employees);
-                //THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-            }
 
             if (answers.action === "Update an Employee Role") {
                 const [employees] = await connection.execute('SELECT * FROM employees;', []);
@@ -246,12 +180,6 @@ main();
                 //THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
             }
 
-           
-
-            }
-            
-        }
-    }
 
 */
 
