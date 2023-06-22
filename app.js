@@ -65,7 +65,6 @@ async function main() {
             const [employees] = await connection.execute('SELECT e.id, e.first_name, e.last_name, r.title, r.salary FROM employees e INNER JOIN roles r ON e.roles_id = r.id;', []);
             console.log("Showing all Employees");
             console.table(employees);
-            //THEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
         }
 
         if (answers.action === "Add a Department") {
@@ -170,14 +169,11 @@ main();
 
 
 
-/*
-
-            if (answers.action === "Update an Employee Role") {
-                const [employees] = await connection.execute('SELECT * FROM employees;', []);
-                console.table(employees);
-                //THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
-            }
 
 
-*/
+
+
+
+
+
 
