@@ -53,14 +53,12 @@ async function main() {
             const [departments] = await connection.execute('SELECT * FROM departments;', []);
             console.log("Showing all Departments");
             console.table(departments);
-            //---- DONE DONE ----THEN I am presented with a formatted table showing department names and department ids
         }
 
         if (answers.action === "View all Roles") {
             const [roles] = await connection.execute('SELECT r.title, r.id, r.salary, d.dept_name FROM roles r INNER JOIN departments d ON r.dept_id = d.id;', []);
             console.log("Showing all Roles");
             console.table(roles);
-            //--DONE DONE ----THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
         }
 
         if (answers.action === "View all Employees") {
