@@ -136,7 +136,7 @@ async function main() {
                 },
                 {
                     type: 'input',
-                    message: 'What is the employee role?',
+                    message: 'What is the employee role ID?',
                     name: 'empRole',
                 },
                 {
